@@ -5,7 +5,7 @@ class Vec2:
     # constructor in two different ways:
     # Vec2(list) constructs a Vec2 from a list
     # Vec2(x, y) constructs a Vec2 from x and y coordinates
-    def __init__(self, x, y=None):
+    def __init__(self, x=(0,0), y=None):
         if y is None:
             # hopefully x is a list of two elements
             try:
@@ -110,6 +110,7 @@ class Vec2:
     def mag(self):
         return sqrt(self.mag2())
     # overload abs() to return magnitude
+    # abs(v) is the same as v.mag()
     __abs__ = mag
 
     # unit vector
