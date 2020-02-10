@@ -122,7 +122,7 @@ class Vec2:
 
     # return a copy
     def copy(self):
-        return Vec2(self.x, self,y)
+        return Vec2(self.x, self.y)
 
     # v.rotated(rot(radians))
     def rotated(self, rot):
