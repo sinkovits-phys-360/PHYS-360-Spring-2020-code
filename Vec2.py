@@ -58,7 +58,7 @@ class Vec2:
                     self.y - other.y)
    # negation -
     def __neg__(self):
-        return Vec2(-self.x, -self.y)
+        return Vec2(-1*self.x, -1*self.y)
     
 
     # scalar multiplication *
