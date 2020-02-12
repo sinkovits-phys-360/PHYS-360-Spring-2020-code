@@ -1,8 +1,9 @@
 # import Vec2 here
 
-class Particle(self): # add arguments with default values for each
-    # define object variables and set them equal to the arguments
-    pass # erase all pass statements when you add other code
+class Particle: 
+    def __init__(self): # add arguments with default values for each
+        # define object variables and set them equal to the arguments
+        pass # erase all pass statements when you add other code
 
     def clear_force(self):
         # clear the force variable
