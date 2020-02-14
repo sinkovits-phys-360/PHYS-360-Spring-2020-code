@@ -38,6 +38,10 @@ class Vec2:
     def __repr__(self):
         return "Vec2(" + str(self.x) + ", " + str(self.y) + ")"
 
+    # printed representation, returns a string
+    def __str__(self):
+        return "(" + str(self.x) + ", " + str(self.y) + ")"
+
     # equality ==
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
