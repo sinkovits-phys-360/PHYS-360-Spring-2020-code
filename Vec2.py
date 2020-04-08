@@ -137,9 +137,18 @@ class Vec2:
 # rotation class
 class Rotation:
     def __init__(self, radians):
+        self.rad = radians
         self.sin = sin(radians)
         self.cos = cos(radians)
+
+    def rotate_by(self, change_in_angle):
+        self.rad += change_in_angle
+        self.sin = sin(self.rad)
+        self.cos = cos(self.rad)
 
     def transform(self, v):
         return Vec2(v.x*self.cos - v.y*self.sin,
                     v.x*self.sin + v.y*self.cos)
+    def inverse_transform(self, v):
+        return Vec2( v.x*self.cos + v.y*self.sin,
+                    -v.x*self.sin + v.y*self.cos)
