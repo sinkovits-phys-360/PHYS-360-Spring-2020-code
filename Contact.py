@@ -1,30 +1,50 @@
 from Circle import Circle
 from Wall import Wall
-
+from Polygon import Polygon
+import math
+from Vec2 import Vec2
 
 class Contact:
-    def __init__(self, a, b, resolve=False, detect=None):
+    def __init__(self, obj1, obj2, resolve=False, detect=None, swap=False):
         # Check if detect has been specified already by user or subclass
         if detect is not None:
             self.detect = getattr(self, detect)
         else:
             # Otherwise find the correct overlap detection
-            if isinstance(a, Circle) and isinstance(b, Circle):
+            if isinstance(obj1, Circle) and isinstance(obj2, Circle):
                 self.detect = self.circle_circle
-            elif isinstance(a, Circle) and isinstance(b, Wall):
+            elif isinstance(obj1, Circle) and isinstance(obj2, Wall):
                 self.detect = self.circle_wall
-            elif isinstance(a, Wall) and isinstance(b, Circle):
+            elif isinstance(obj1, Wall) and isinstance(obj2, Circle):
                 self.detect = self.circle_wall
-                a, b = b, a 
-            elif isinstance(a, Wall) and isinstance(b, Wall):
+                swap = True
+            elif isinstance(obj1, Wall) and isinstance(obj2, Wall):
                 self.detect = self.nothing           
+            elif isinstance(obj1, Polygon) and isinstance(obj2, Wall):
+                self.detect = self.polygon_wall
+            elif isinstance(obj1, Wall) and isinstance(obj2, Polygon):
+                self.detect = self.polygon_wall
+                swap = True
+            elif isinstance(obj1, Polygon) and isinstance(obj2, Polygon):
+                self.detect = self.polygon_polygon
+            elif isinstance(obj1, Circle) and isinstance(obj2, Polygon):
+                self.detect = self.circle_polygon
+            elif isinstance(obj1, Polygon) and isinstance(obj2, Circle):
+                self.detect = self.circle_polygon
+                swap = True
             else:
-                raise(ValueError, f"No overlap detection implemented between {type(a)} and {type(b)}.")
+                raise ValueError(f"No overlap detection implemented between {type(obj1)} and {type(obj2)}.")
         
-        # Store objects a and b
-        self.a = a
-        self.b = b
+        # Store objects self.obj1 and self.obj2 (first and second arguments to the overlap detection function)
+        if swap:
+            obj1, obj2 = obj2, obj1
+        self.obj1 = obj1
+        self.obj2 = obj2
         
+        # Default these to self.a (meaning the penetrator) and self.b (meaning the penetrated), for times when it doesn't matter
+        self.a = self.obj1
+        self.b = self.obj2
+
         # Calculate if contact occurs
         self.detect()
 
